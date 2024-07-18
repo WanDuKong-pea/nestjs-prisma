@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(uuid())
+  email     String?   @unique @db.VarChar(50)
+  name      String?   @db.VarChar(20)
+  createdAt DateTime? @default(now()) @db.Date
+  updatedAt DateTime? @updatedAt
+}
+
+model Board {
+  id          String       @id @default(uuid())
+  title       String       @db.VarChar(100)
+  description String       @db.VarChar(200)
+  status      BoardStatus? @default(PUBLIC)
+  createdAt   DateTime?    @default(now()) @db.Date
+  updatedAt   DateTime?    @updatedAt
+}
+
+enum BoardStatus {
+  PUBLIC
+  PRIVATE
+}
